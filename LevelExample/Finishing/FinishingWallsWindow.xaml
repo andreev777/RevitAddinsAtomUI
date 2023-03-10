@@ -1,0 +1,106 @@
+﻿<Window x:Class="RevitAddinsUI.FinishingWallsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="650"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        BorderBrush="#808080" BorderThickness="0.5" Background="#F6F6F6" Foreground="#1A1A1A">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="0,0,0,1" CornerRadius="0" ResizeBorderThickness="5"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AtomStyleLibrary;component/Dictionaries/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LevelExample;component/Finishing/Library/AtomComboBoxCustom.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LevelExample;component/Finishing/Library/AtomTextBoxCustom.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--Необходимо для кнопки Закрыть-->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute_1" Executed="CommandBinding_Executed_1"/>
+    </Window.CommandBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--#region ШАПКА ПРИЛОЖЕНИЯ-->
+        <Border Grid.Row="0" Grid.ColumnSpan="6" Background="Transparent" MouseDown="DragWithMouse" Height="44">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="44" MinWidth="44"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Style="{StaticResource AtomLogoLabelStyle}"/>
+
+                <TextBlock x:Name="tableHeaderTextBlock" Grid.Column="1"
+                            Text="ОТДЕЛКА СТЕН" Style="{StaticResource HeaderFont}"
+                            VerticalAlignment="Center" Padding="4,3,0,0"/>
+
+                <TextBlock x:Name="activeDocTextBlock" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Style="{StaticResource RegularFont}" 
+                           Foreground="{StaticResource AtomGray700Brush}"/>
+
+                <Button Style="{DynamicResource AtomCloseButtonStyle}" x:Name="closeButton" Grid.Column="2"
+                        Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <TextBlock Text="ТИП ОТДЕЛКИ" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TitleFont}"/>
+        <ComboBox x:Name="finishingWallTypesComboBox" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Width="430" HorizontalAlignment="Left" Style="{StaticResource AtomComboBoxCustom}"/>
+
+        <TextBlock Text="ЗАВИСИМОСТЬ СНИЗУ" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TitleFont}"/>
+        <ComboBox x:Name="bottomLevelComboBox" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock Text="СМЕЩЕНИЕ СНИЗУ" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TitleFont}"/>
+        <TextBox Grid.Row="4" Grid.Column="4" Margin="0,0,0,3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130" Style="{StaticResource AtomTextBoxCustomStyle}"/>
+
+        <TextBlock Text="ЗАВИСИМОСТЬ СВЕРХУ" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TitleFont}"/>
+        <ComboBox x:Name="topLevelComboBox" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock Text="СМЕЩЕНИЕ СВЕРХУ" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TitleFont}"/>
+        <TextBox Grid.Row="6" Grid.Column="4" Margin="0,0,0,3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130" Style="{StaticResource AtomTextBoxCustomStyle}"/>
+        
+        <TextBlock Text="Высота стены:" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RegularFont}"/>
+        <Label Content="2890 мм" Grid.Row="8" Grid.Column="1" Padding="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="{StaticResource SemiBold}"/>
+
+        <StackPanel Grid.Row="8" Grid.Column="3" Orientation="Vertical" Grid.ColumnSpan="2" >
+            <CheckBox x:Name="roomBorderCheckBox" Content="Граница помещения" Margin="0,0,0,0"/>
+            <CheckBox x:Name="byRoomHeightCheckBox" Content="По высоте помещения" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <Button x:Name="helpButton" Grid.Row="8" Grid.Column="4" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                Style="{StaticResource AtomQuestionMarkStyle}"/>
+
+        <Button x:Name="fillButton" Content="ВЫБРАТЬ ПОМЕЩЕНИЯ" VerticalAlignment="Center" HorizontalAlignment="Center" Width="190" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6"
+                Style="{StaticResource AtomGreenButtonStyle}"/>
+    </Grid>
+</Window>
